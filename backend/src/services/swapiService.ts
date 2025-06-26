@@ -1,5 +1,8 @@
+import { TCategories, TCategory } from "../types/swapi"
+
 const BASE_URL = "https://swapi.info/api/"
-const RESOURCES = [
+
+const CATEGORIES: TCategories = [
   "people",
   "starships",
   "planets",
@@ -8,31 +11,27 @@ const RESOURCES = [
   "films",
 ]
 
-export async function searchAll(query: string) {
-  const allResults: any[] = []
+export async function searchAll() {
+  const data = await Promise.all(CATEGORIES.map((c) => fetchCategoryData(c)))
+  console.log("🚀 ~  data:", data)
 
-  await Promise.all(
-    RESOURCES.map(async (resource) => {
-      try {
-        const response = await fetch(`${BASE_URL}${resource}/?search=${query}`)
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
+  return data
+}
 
-        const json = await response.json()
-        const data = json.map((item: any) => ({
-          type: resource,
-          name: item.name || item.title,
-          ...item,
-        }))
+const fetchCategoryData = async (
+  category: TCategory
+): Promise<{ success: boolean; category: TCategory; data: any } | null> => {
+  try {
+    const response = await fetch(`${BASE_URL}/${category}`)
+    if (!response.ok) {
+      throw new Error(`Failed to fetch ${category}: ${response.status}`)
+    }
 
-        allResults.push(...data)
-      } catch (err: any) {
-        console.warn(`Failed to fetch ${resource}:`, err.message)
-      }
-    })
-  )
+    const data = await response.json()
 
-  console.log("🚀 ~ allResults:", allResults)
-  return allResults
+    return { success: true, category: category, data }
+  } catch (error) {
+    console.error(`Error fetching ${category}:`, error)
+    return null
+  }
 }

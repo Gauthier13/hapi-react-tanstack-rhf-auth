@@ -5,7 +5,7 @@ export default async (request: Request, h: ResponseToolkit) => {
   const { q } = request.query as { q: string }
 
   try {
-    const results = await searchAll(q)
+    const results = await searchAll()
     return h.response(results).code(200)
   } catch (err) {
     console.error(err)
