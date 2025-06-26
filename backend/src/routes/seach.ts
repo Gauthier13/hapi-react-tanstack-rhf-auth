@@ -2,9 +2,9 @@ import { ServerRoute } from "@hapi/hapi"
 import Joi from "joi"
 import searchController from "../controllers/searchController"
 
-const route: ServerRoute = {
+const searchRoute: ServerRoute = {
   method: "GET",
-  path: "search",
+  path: "/search",
   handler: searchController,
   options: {
     validate: {
@@ -16,4 +16,4 @@ const route: ServerRoute = {
   },
 }
 
-export default route
+export default searchRoute

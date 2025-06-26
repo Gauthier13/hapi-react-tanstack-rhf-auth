@@ -1,15 +1,14 @@
 import { Lifecycle, ResponseToolkit, Request } from "@hapi/hapi"
 
-const PUBLIC_PATH = ["/login"]
-
 const auth: Lifecycle.Method = async (request: Request, h: ResponseToolkit) => {
-  if (request.path === "/login") {
+  console.log("🚀 ~ request:", request.path)
+  if (request.path === "/search") {
     return h.continue
   }
 
   const auth = request.headers.authorization
   if (!auth) {
-    return h.response({ error: "Missing auth" }).code(401).takeover
+    return h.response({ error: "Missing auth" }).code(401).takeover()
   }
 
   const [user, password] = Buffer.from(auth.replace("Basic ", ""), "base64")

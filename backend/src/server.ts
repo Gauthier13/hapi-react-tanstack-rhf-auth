@@ -1,12 +1,17 @@
 "use strict"
 
 import Hapi from "@hapi/hapi"
+import auth from "./middlewares/auth"
+import searchRoute from "./routes/seach"
 
 const init = async () => {
   const server = Hapi.server({
     port: 3000,
     host: "localhost",
   })
+
+  server.ext("onRequest", auth)
+  server.route(searchRoute)
 
   server.route({
     method: "GET",

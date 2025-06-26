@@ -1,4 +1,5 @@
 import { ResponseToolkit, Request } from "@hapi/hapi"
+import { searchAll } from "../services/swapiService"
 
 export default async (request: Request, h: ResponseToolkit) => {
   const { q } = request.query as { q: string }
