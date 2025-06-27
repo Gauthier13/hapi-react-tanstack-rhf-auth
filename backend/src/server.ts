@@ -2,7 +2,7 @@
 
 import Hapi from "@hapi/hapi"
 import auth from "./middlewares/auth"
-import searchRoute from "./routes/seach"
+import searchRoute from "./routes/search"
 
 const init = async () => {
   const server = Hapi.server({
@@ -24,7 +24,7 @@ const init = async () => {
   server.route({
     method: "GET",
     path: "/",
-    handler: (request, h) => {
+    handler: () => {
       return "hello buddy"
     },
   })
