@@ -13,8 +13,6 @@ const CATEGORIES: TCategories = [
 
 export async function searchAll() {
   const data = await Promise.all(CATEGORIES.map((c) => fetchCategoryData(c)))
-  //   console.log("🚀 ~  data:", data)
-
   return data
 }
 

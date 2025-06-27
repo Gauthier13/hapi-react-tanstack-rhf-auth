@@ -7,6 +7,8 @@ export default async (_: Request, h: ResponseToolkit) => {
     return h.response(results).code(200)
   } catch (err) {
     console.error(err)
-    return h.response({ error: "Internal Error" }).code(500)
+    return h
+      .response({ error: "Internal Error in search controller" })
+      .code(500)
   }
 }
