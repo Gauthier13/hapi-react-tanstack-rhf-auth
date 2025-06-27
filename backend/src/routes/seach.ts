@@ -6,14 +6,6 @@ const searchRoute: ServerRoute = {
   method: "GET",
   path: "/search",
   handler: searchController,
-  options: {
-    validate: {
-      query: Joi.object({ q: Joi.string().min(1).required() }),
-      failAction: (_req, _h, error) => {
-        throw error
-      },
-    },
-  },
 }
 
 export default searchRoute
