@@ -10,7 +10,7 @@ const init = async () => {
     host: "localhost",
     routes: {
       cors: {
-        origin: ["*"],
+        origin: ["http://localhost:5173"],
         credentials: true,
         headers: ["Authorization", "Content-Type"],
         additionalHeaders: ["authorization", "content-type"],
