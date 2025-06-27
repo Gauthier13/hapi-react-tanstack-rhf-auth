@@ -1,10 +1,10 @@
 import { ResponseToolkit, Request } from "@hapi/hapi"
 import { searchAll } from "../services/swapiService"
 
-export default async (_: Request, h: ResponseToolkit) => {
+export default async (request: Request, h: ResponseToolkit) => {
+  const { q } = request.query as { q: string }
   try {
-    const results = await searchAll()
-    console.log("🚀 ~ results:", results)
+    const results = await searchAll(q)
     return h.response(results).code(200)
   } catch (err) {
     console.error(err)

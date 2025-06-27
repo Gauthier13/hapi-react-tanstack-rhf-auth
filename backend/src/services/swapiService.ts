@@ -1,35 +1,35 @@
-import { TCategories, TCategory } from "../types/swapi"
+import { categorySchema, TCategory } from "../validation-schemas/categories"
 
 const BASE_URL = "https://swapi.info/api/"
 
-const CATEGORIES: TCategories = [
-  "people",
-  "starships",
-  "planets",
-  "vehicles",
-  "species",
-  "films",
-]
-
-export async function searchAll() {
-  const data = await Promise.all(CATEGORIES.map((c) => fetchCategoryData(c)))
-  return data
-}
-
-const fetchCategoryData = async (
-  category: TCategory
-): Promise<{ success: boolean; category: TCategory; data: any } | null> => {
+export async function searchAll(
+  q: string
+): Promise<
+  | { success: boolean; category: TCategory; data: any }
+  | { success: boolean; code: number; message: string }
+> {
   try {
-    const response = await fetch(`${BASE_URL}/${category}`)
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${category}: ${response.status}`)
+    const { error, value } = categorySchema.validate(q)
+
+    if (error) {
+      return {
+        success: false,
+        message: error.message,
+        code: 400,
+      }
     }
 
+    const response = await fetch(`${BASE_URL}/${value}`)
     const data = await response.json()
 
-    return { success: true, category: category, data }
+    return { success: true, category: value, data }
   } catch (error) {
-    console.error(`Error fetching ${category}:`, error)
-    return null
+    console.error("🚀 ~ error:", error)
+
+    return {
+      success: false,
+      code: 500,
+      message: error.message,
+    }
   }
 }

@@ -4,13 +4,14 @@ export default function SearchPage() {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["search"],
     queryFn: async () => {
-      const response = await fetch("http://localhost:3000/search", {
+      const response = await fetch("http://localhost:3000/search?q=fsdf", {
         method: "GET",
         headers: {
           Authorization: `Basic ${btoa(`Luke:DadSucks`)}`,
           "Content-Type": "application/json",
         },
       })
+      console.log("🚀 ~ response:", response)
 
       if (!response.ok) {
         throw new Error(`Search failed: ${response.statusText}`)

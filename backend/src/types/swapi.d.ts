@@ -1,20 +1,3 @@
-export type TCategories = [
-  "people",
-  "starships",
-  "planets",
-  "vehicles",
-  "species",
-  "films"
-]
-
-export type TCategory =
-  | "people"
-  | "starships"
-  | "planets"
-  | "vehicles"
-  | "species"
-  | "films"
-
 export type TPeople = {
   name: string
   height: string
