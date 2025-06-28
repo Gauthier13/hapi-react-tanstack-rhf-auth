@@ -1,3 +1,25 @@
-export default function CardSpecies() {
-  return <div>CardSpecies</div>
+import { Link } from "react-router"
+import { speciesSchema } from "../../validation-schemas/species.schema"
+
+export default function CardSpecies(data: unknown) {
+  const result = speciesSchema.safeParse(data.data)
+
+  if (!result.success) {
+    return <p className="text-sm text-red-500">Invalid data</p>
+  }
+
+  const specie = result.data
+  return (
+    <div className="flex flex-col gap-4 items-center p-3 rounded-2xl">
+      <div className="flex gap-4 items-center">
+        <h2>{specie.name}</h2>
+        <Link
+          to={`/search/species/${specie.id}`}
+          className="bg-amber-200 hover:bg-amber-400 rounded-2xl p-2 text-slate-700"
+        >
+          See
+        </Link>
+      </div>
+    </div>
+  )
 }

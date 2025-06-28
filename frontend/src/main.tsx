@@ -10,6 +10,7 @@ import { store } from "./store/store"
 import FilmDetailsCard from "./components/cards/DetailsCards/FilmDetailsCard.tsx"
 import PlanetDetailsCard from "./components/cards/DetailsCards/PlanetDetailCard.tsx"
 import PeopleDetailCard from "./components/cards/DetailsCards/PeopleDetailCard.tsx"
+import SpecieDetailCard from "./components/cards/DetailsCards/SpecieDetailCard.tsx"
 
 const queryClient = new QueryClient()
 
@@ -24,7 +25,7 @@ createRoot(document.getElementById("root")!).render(
             <Route path="/search/films/:id" element={<FilmDetailsCard />} />
             <Route path="/search/planets/:id" element={<PlanetDetailsCard />} />
             <Route path="/search/peoples/:id" element={<PeopleDetailCard />} />
-            <Route path="/search/species/:id" element={<FilmDetailsCard />} />
+            <Route path="/search/species/:id" element={<SpecieDetailCard />} />
             <Route path="/search/starships/:id" element={<FilmDetailsCard />} />
             <Route path="/search/vehicles/:id" element={<FilmDetailsCard />} />
           </Routes>

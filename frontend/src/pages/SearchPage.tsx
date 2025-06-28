@@ -10,6 +10,7 @@ import { useSearchParams } from "react-router"
 import type { RootState } from "../store/store"
 import type { TPlanet } from "../validation-schemas/planet.shema"
 import { setPeoples } from "../store/peoplesSlice"
+import { setSpecies } from "../store/speciesSlice"
 
 type SearchFormData = {
   category: string
@@ -83,6 +84,9 @@ export default function SearchPage() {
       }
       if (result.category === "people") {
         dispatch(setPeoples(result.data))
+      }
+      if (result.category === "species") {
+        dispatch(setSpecies(result.data))
       }
     }
   }, [result, dispatch])
