@@ -88,7 +88,10 @@ export default function SearchPage() {
       {result && result.success && (
         <div className="mt-4 w-full ">
           <h3 className="font-bold">Results: {debouncedCategory || query}</h3>
-          <ListCards data={result.data} category={debouncedCategory || query} />
+          <ListCards
+            data={result.data}
+            category={debouncedCategory || (query ?? "")}
+          />
         </div>
       )}
     </div>
