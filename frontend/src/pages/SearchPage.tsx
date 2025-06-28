@@ -4,13 +4,21 @@ import { useDebounce } from "../hooks/useDebounce"
 import { Cards } from "../components/cards/Cards"
 import { useEffect } from "react"
 import { setFilms } from "../store/filmsSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { setPlanets } from "../store/planetsSlice"
+import { useSearchParams } from "react-router"
+import type { RootState } from "../store/store"
+import type { TPlanet } from "../validation-schemas/planet.shema"
 
 type SearchFormData = {
   category: string
 }
 
 export default function SearchPage() {
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get("q")
+  console.log("🚀 ~ query:", query)
+
   const {
     register,
     handleSubmit,
@@ -21,6 +29,10 @@ export default function SearchPage() {
       category: "",
     },
   })
+
+  const planets: TPlanet[] | undefined = useSelector(
+    (state: RootState) => state.planets.list
+  )
 
   const dispatch = useDispatch()
 
@@ -65,6 +77,9 @@ export default function SearchPage() {
     if (result && result.success) {
       if (result.category === "films") {
         dispatch(setFilms(result.data))
+      }
+      if (result.category === "planets") {
+        dispatch(setPlanets(result.data))
       }
     }
   }, [result, dispatch])
@@ -119,7 +134,15 @@ export default function SearchPage() {
           <h3 className="font-bold">Results:</h3>
           {result.data.map((data: unknown) => {
             return (
-              <Cards key={data.id} category={debouncedCategory} data={data} />
+              <ul>
+                <li key={data.id}>
+                  <Cards
+                    key={data.id}
+                    category={debouncedCategory}
+                    data={data}
+                  />
+                </li>
+              </ul>
             )
           })}
         </div>

@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit"
 import filmsReducer from "./filmsSlice"
+import planetsReducer from "./planetsSlice"
 
 export const store = configureStore({
   reducer: {
     films: filmsReducer,
+    planets: planetsReducer,
   },
 })
 
