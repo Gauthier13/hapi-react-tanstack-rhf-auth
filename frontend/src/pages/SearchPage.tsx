@@ -6,13 +6,13 @@ import { useEffect } from "react"
 import { setFilms } from "../store/filmsSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { setPlanets } from "../store/planetsSlice"
-import { useSearchParams } from "react-router"
-import type { RootState } from "../store/store"
-import type { TPlanet } from "../validation-schemas/planet.shema"
 import { setPeoples } from "../store/peoplesSlice"
 import { setSpecies } from "../store/speciesSlice"
 import { setStarships } from "../store/starshipsSlice"
 import { setVehicles } from "../store/vehiclesSlice"
+import type { RootState } from "../store/store"
+import type { TPeople } from "../validation-schemas/people.schema"
+import { useSearchParams } from "react-router"
 
 type SearchFormData = {
   category: string
@@ -21,6 +21,7 @@ type SearchFormData = {
 export default function SearchPage() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get("q")
+  console.log("🚀 ~ query:", query)
 
   const {
     register,
@@ -33,12 +34,7 @@ export default function SearchPage() {
     },
   })
 
-  const planets: TPlanet[] | undefined = useSelector(
-    (state: RootState) => state.planets.list
-  )
-
   const dispatch = useDispatch()
-
   const watchCategory = watch("category")
   const debouncedCategory = useDebounce(watchCategory, 1000)
 
@@ -70,7 +66,6 @@ export default function SearchPage() {
     enabled: !!debouncedCategory && debouncedCategory.length >= 2,
     staleTime: 2 * 60 * 1000,
   })
-  // console.log("🚀 ~ result:", result)
 
   const onSubmit = (data: SearchFormData) => {
     console.log("Form submitted with:", data)
@@ -99,6 +94,12 @@ export default function SearchPage() {
     }
   }, [result, dispatch])
 
+  const people: TPeople[] | undefined = useSelector(
+    (state: RootState) => state.peoples.list
+  )
+
+  console.log("🚀 ~ people:", people)
+
   return (
     <div className="flex flex-col gap-4 items-center">
       <p className="font-black">What are you looking for ?</p>
@@ -121,12 +122,6 @@ export default function SearchPage() {
               },
             })}
           />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-1 rounded-2xl hover:bg-blue-600"
-          >
-            Search
-          </button>
         </div>
         {errors.category && (
           <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
@@ -146,22 +141,24 @@ export default function SearchPage() {
 
       {result && result.success && (
         <div className="mt-4">
-          <h3 className="font-bold">Results:</h3>
-          return (
-          <ul>
-            {result.data.map((data: unknown) => {
-              return (
-                <li key={data.id}>
-                  <Cards
-                    key={data.id}
-                    category={debouncedCategory}
-                    data={data}
-                  />
-                </li>
-              )
-            })}
-          </ul>
-          )
+          <h3 className="font-bold">Results: {debouncedCategory}</h3>
+          <div className="p-4 bg-slate-900 rounded-3xl mt-4">
+            <div className="h-96 overflow-y-auto p-4">
+              <ul>
+                {result.data.map((data) => {
+                  return (
+                    <li key={data.id}>
+                      <Cards
+                        key={data.id}
+                        category={debouncedCategory}
+                        data={data}
+                      />
+                    </li>
+                  )
+                })}
+              </ul>
+            </div>
+          </div>
         </div>
       )}
     </div>
