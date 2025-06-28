@@ -5,8 +5,13 @@ const fetchCategoryData = async (category: TCategory | string) => {
   if (!category) {
     throw new Error("Category is required")
   }
-
-  const response = await fetch(`http://localhost:3000/search?q=${category}`, {
+  const config = {
+    API_URL:
+      window.location.hostname === "localhost"
+        ? "http://localhost:3000"
+        : "https://fastory-backend-production.up.railway.app",
+  }
+  const response = await fetch(`${config.API_URL}/search?q=${category}`, {
     method: "GET",
     headers: {
       Authorization: `Basic ${btoa(`Luke:DadSucks`)}`,
