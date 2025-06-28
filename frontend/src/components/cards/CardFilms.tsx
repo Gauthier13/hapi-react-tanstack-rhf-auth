@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { filmSchema } from "../../validation-schemas/film.schema"
 
 export default function CardFilms(data: unknown) {
@@ -11,7 +12,15 @@ export default function CardFilms(data: unknown) {
   console.log("🚀 ~ film:", film)
   return (
     <div className="flex flex-col gap-4 items-center p-3 rounded-2xl">
-      <h2>{film.title}</h2>
+      <div className="flex gap-4 items-center">
+        <h2>{film.title}</h2>
+        <Link
+          to={`/search/films/${film.title}`}
+          className="bg-amber-200 hover:bg-amber-400 rounded-2xl p-2 text-slate-700"
+        >
+          See
+        </Link>
+      </div>
     </div>
   )
 }
