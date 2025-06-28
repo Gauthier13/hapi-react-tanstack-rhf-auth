@@ -3,6 +3,7 @@
 import Hapi from "@hapi/hapi"
 import auth from "./middlewares/auth"
 import searchRoute from "./routes/search"
+import home from "./routes/home"
 
 const init = async () => {
   const server = Hapi.server({
@@ -20,14 +21,7 @@ const init = async () => {
 
   server.ext("onPreHandler", auth)
   server.route(searchRoute)
-
-  server.route({
-    method: "GET",
-    path: "/",
-    handler: () => {
-      return "hello buddy"
-    },
-  })
+  server.route(home)
 
   await server.start()
   console.log("Server running on %s", server.info.uri)

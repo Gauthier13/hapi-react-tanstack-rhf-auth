@@ -14,6 +14,16 @@ const fetchCategoryData = async (category: TCategory | string) => {
     },
   })
 
+  if (response.status === 401) {
+    const data = await response.json()
+
+    if (data.redirectTo) {
+      window.location.href = data.redirectTo
+      return
+    }
+
+    throw new Error(data.error)
+  }
   if (!response.ok) {
     throw new Error(`Search failed: ${response.statusText}`)
   }

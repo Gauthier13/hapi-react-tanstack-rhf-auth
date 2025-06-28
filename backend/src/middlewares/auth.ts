@@ -7,7 +7,10 @@ const auth: Lifecycle.Method = async (request: Request, h: ResponseToolkit) => {
 
   const auth = request.headers.authorization
   if (!auth) {
-    return h.response({ error: "Missing auth" }).code(401).takeover()
+    return h
+      .response({ error: "Missing auth", redirectTo: "/" })
+      .code(401)
+      .takeover()
   }
 
   const [user, password] = Buffer.from(auth.replace("Basic ", ""), "base64")
@@ -15,7 +18,10 @@ const auth: Lifecycle.Method = async (request: Request, h: ResponseToolkit) => {
     .split(":")
 
   if (user !== "Luke" || password !== "DadSucks") {
-    return h.response({ error: "Invalid credentials" }).code(401).takeover()
+    return h
+      .response({ error: "Invalid credentials", redirectTo: "/" })
+      .code(401)
+      .takeover()
   }
 
   return h.continue
