@@ -9,6 +9,7 @@ import { setPlanets } from "../store/planetsSlice"
 import { useSearchParams } from "react-router"
 import type { RootState } from "../store/store"
 import type { TPlanet } from "../validation-schemas/planet.shema"
+import { setPeoples } from "../store/peoplesSlice"
 
 type SearchFormData = {
   category: string
@@ -17,7 +18,6 @@ type SearchFormData = {
 export default function SearchPage() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get("q")
-  console.log("🚀 ~ query:", query)
 
   const {
     register,
@@ -81,6 +81,9 @@ export default function SearchPage() {
       if (result.category === "planets") {
         dispatch(setPlanets(result.data))
       }
+      if (result.category === "people") {
+        dispatch(setPeoples(result.data))
+      }
     }
   }, [result, dispatch])
 
@@ -132,9 +135,10 @@ export default function SearchPage() {
       {result && result.success && (
         <div className="mt-4">
           <h3 className="font-bold">Results:</h3>
-          {result.data.map((data: unknown) => {
-            return (
-              <ul>
+          return (
+          <ul>
+            {result.data.map((data: unknown) => {
+              return (
                 <li key={data.id}>
                   <Cards
                     key={data.id}
@@ -142,9 +146,10 @@ export default function SearchPage() {
                     data={data}
                   />
                 </li>
-              </ul>
-            )
-          })}
+              )
+            })}
+          </ul>
+          )
         </div>
       )}
     </div>
