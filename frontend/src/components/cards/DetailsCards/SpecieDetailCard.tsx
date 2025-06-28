@@ -13,7 +13,10 @@ export default function SpecieDetailCard() {
       <p className="font-bold text-lg">Details</p>
       <div className="flex flex-col p-4 gap-2 rounded-2xl bg-stone-300 justify-center">
         <p className="font-bold text-slate-700 text-2xl">{specie?.name}</p>
-        <p className="font-bold text-slate-700">climate: {specie?.name}</p>
+        <p className=" text-slate-700">
+          <span className="font-bold"> Average lifespan:</span>{" "}
+          {specie?.average_lifespan} years
+        </p>
         <p className="text-slate-700">
           <span className="font-bold">Language</span>: {specie?.language}
         </p>
