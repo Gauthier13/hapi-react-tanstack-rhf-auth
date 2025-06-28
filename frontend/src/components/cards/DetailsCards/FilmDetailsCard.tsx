@@ -12,7 +12,7 @@ export default function FilmDetailsCard() {
   } = useItemFromCache("films", id!)
 
   return (
-    <div className="flex flex-col gap-6 min-h-screen max-w-2xl w-full">
+    <div className="flex flex-col gap-6 max-w-2xl min-w-full">
       <p className="font-bold text-lg">Details</p>
       {isFetching && <span>Loading...</span>}
       {isError && <span>Error: {error.message}</span>}

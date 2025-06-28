@@ -10,7 +10,7 @@ export default function SpecieDetailCard() {
     isError,
   } = useItemFromCache("species", id!)
   return (
-    <div className="flex flex-col gap-6 min-h-screen max-w-2xl w-full">
+    <div className="flex flex-col gap-6 max-w-2xl w-full">
       <p className="font-bold text-lg">Details</p>
       {isFetching && <span>Loading...</span>}
       {isError && <span>Error: {error.message}</span>}
@@ -36,10 +36,10 @@ export default function SpecieDetailCard() {
         <p className="text-slate-700">
           <span className="font-bold">Designation</span>: {specie?.designation}
         </p>
-        <Link to="/search?q=species" className="p-2 bg-blue-600 rounded-2xl">
-          Back
-        </Link>
       </div>
+      <Link to="/search?q=species" className="p-2 bg-blue-600 rounded-2xl">
+        Back
+      </Link>
     </div>
   )
 }

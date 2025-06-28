@@ -49,7 +49,7 @@ export default function SearchPage() {
   }
 
   return (
-    <div className="flex flex-col gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center min-h-screen justify-center">
       <p className="font-black">What are you looking for ?</p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,7 +87,7 @@ export default function SearchPage() {
       )}
 
       {result && result.success && (
-        <div className="mt-4">
+        <div className="mt-4 w-full ">
           <h3 className="font-bold">Results: {debouncedCategory || query}</h3>
           <ListCards data={result.data} category={debouncedCategory || query} />
         </div>

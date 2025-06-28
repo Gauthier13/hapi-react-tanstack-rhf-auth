@@ -25,7 +25,7 @@ function DetailsCardDispatcher() {
         return <VehicleDetailCard />
       default:
         return (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 w-full">
             <p className="font-bold">Category not found</p>
             <Link to={"/search"} className="p-2 rounded-2xl bg-blue-400">
               Back to search
@@ -35,7 +35,11 @@ function DetailsCardDispatcher() {
     }
   }
 
-  return <div>{renderCard()}</div>
+  return (
+    <div className="flex w-full justify-center items-center min-h-screen">
+      {renderCard()}
+    </div>
+  )
 }
 
 export default DetailsCardDispatcher

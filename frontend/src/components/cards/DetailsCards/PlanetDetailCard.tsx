@@ -10,7 +10,7 @@ export default function PlanetDetailsCard() {
     isError,
   } = useItemFromCache("planets", id!)
   return (
-    <div className="flex flex-col gap-6 min-h-screen max-w-2xl w-full">
+    <div className="flex flex-col gap-6 max-w-2xl w-full">
       <p className="font-bold text-lg">Details</p>
       {isFetching && <span>Loading...</span>}
       {isError && <span>Error: {error.message}</span>}
@@ -30,10 +30,10 @@ export default function PlanetDetailsCard() {
           <span className="font-bold">Orbital period</span>:{" "}
           {planet?.orbital_period} years
         </p>
-        <Link to="/search?q=planets" className="p-2 bg-blue-600 rounded-2xl">
-          Back
-        </Link>
       </div>
+      <Link to="/search?q=planets" className="p-2 bg-blue-600 rounded-2xl">
+        Back
+      </Link>
     </div>
   )
 }
