@@ -1,4 +1,5 @@
 import { categorySchema, TCategory } from "../validation-schemas/categories"
+import { v4 as uuidv4 } from "uuid"
 
 const BASE_URL = "https://swapi.info/api/"
 
@@ -20,9 +21,14 @@ export async function searchAll(
     }
 
     const response = await fetch(`${BASE_URL}/${value}`)
+
     const data = await response.json()
 
-    return { success: true, category: value, data }
+    const dataWithIds = data.map((d) => {
+      return { ...d, id: uuidv4() }
+    })
+
+    return { success: true, category: value, data: dataWithIds }
   } catch (error) {
     console.error("🚀 ~ error:", error)
 
