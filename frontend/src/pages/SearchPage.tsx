@@ -27,7 +27,7 @@ export default function SearchPage() {
   })
 
   const watchCategory = watch("category")
-  const debouncedCategory = useDebounce(watchCategory, 1000)
+  const debouncedCategory = useDebounce(watchCategory, 500)
 
   useEffect(() => {
     if (query) {

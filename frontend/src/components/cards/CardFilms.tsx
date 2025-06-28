@@ -10,8 +10,8 @@ export default function CardFilms(data: unknown) {
 
   const film = result.data
   return (
-    <div className="flex flex-col gap-4 items-center p-3 rounded-2xl bg-slate-800">
-      <div className="flex gap-4 items-center justify-between">
+    <div className="flex flex-col gap-4 items-center p-3 bg-slate-800 rounded-2xl">
+      <div className="flex gap-4 items-center justify-between w-full">
         <h2>{film.title}</h2>
         <Link
           to={`/search/films/${film.id}`}
