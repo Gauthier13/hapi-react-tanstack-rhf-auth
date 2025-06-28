@@ -2,6 +2,9 @@ import { useQuery } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { useDebounce } from "../hooks/useDebounce"
 import { Cards } from "../components/cards/Cards"
+import { useEffect } from "react"
+import { setFilms } from "../store/filmsSlice"
+import { useDispatch } from "react-redux"
 
 type SearchFormData = {
   category: string
@@ -18,6 +21,8 @@ export default function SearchPage() {
       category: "",
     },
   })
+
+  const dispatch = useDispatch()
 
   const watchCategory = watch("category")
   const debouncedCategory = useDebounce(watchCategory, 1000)
@@ -50,10 +55,21 @@ export default function SearchPage() {
     enabled: !!debouncedCategory && debouncedCategory.length >= 2,
     staleTime: 2 * 60 * 1000,
   })
+  console.log("🚀 ~ result:", result)
 
   const onSubmit = (data: SearchFormData) => {
     console.log("Form submitted with:", data)
   }
+
+  useEffect(() => {
+    if (result && result.success) {
+      console.log("coucou")
+
+      if (result.category === "films") {
+        dispatch(setFilms(result.data))
+      }
+    }
+  }, [result, dispatch])
 
   return (
     <div className="flex flex-col gap-4 items-center">
