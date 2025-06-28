@@ -1,16 +1,21 @@
-import { useSelector } from "react-redux"
 import { Link, useParams } from "react-router"
-import type { TFilm } from "../../../validation-schemas/film.schema"
-import type { RootState } from "../../../store/store"
+import { useItemFromCache } from "../../../hooks/useSearch"
 
 export default function FilmDetailsCard() {
   const { id } = useParams()
-  const film: TFilm | undefined = useSelector((state: RootState) =>
-    state.films.list.find((f) => f.id === id)
-  )
+
+  const {
+    data: film,
+    isFetching,
+    error,
+    isError,
+  } = useItemFromCache("films", id!)
+
   return (
     <div className="flex flex-col gap-6 min-h-screen max-w-2xl w-full">
       <p className="font-bold text-lg">Details</p>
+      {isFetching && <span>Loading...</span>}
+      {isError && <span>Error: {error.message}</span>}
       <div className="flex flex-col p-4 gap-2 rounded-2xl bg-amber-200 justify-center">
         <p className="font-bold text-slate-700 text-2xl">{film?.title}</p>
         <p className="font-bold text-slate-700">Episode: {film?.episode_id}</p>

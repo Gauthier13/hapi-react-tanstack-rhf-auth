@@ -1,111 +1,69 @@
+// pages/SearchPage.tsx
 import { useForm } from "react-hook-form"
 import { useDebounce } from "../hooks/useDebounce"
-import { useEffect, useState } from "react"
-import { setFilms } from "../store/filmsSlice"
-import { useDispatch } from "react-redux"
-import { setPlanets } from "../store/planetsSlice"
-import { setPeoples } from "../store/peoplesSlice"
-import { setSpecies } from "../store/speciesSlice"
-import { setStarships } from "../store/starshipsSlice"
-import { setVehicles } from "../store/vehiclesSlice"
-import { useSearchParams } from "react-router"
 import ListCards from "../components/cards/ListCards"
 import { useSearch } from "../hooks/useSearch"
-
-import { useStoreData } from "../hooks/useStoreData"
+import { useSearchParams } from "react-router"
+import { useEffect, useRef } from "react"
 
 type SearchFormData = {
   category: string
 }
 
 export default function SearchPage() {
-  const [searchParams] = useSearchParams()
-  const query = searchParams.get("q")
-
-  const [dataToDisplay, setDataToDisplay] = useState<any[]>([])
-  const { films, planets, peoples, vehicles, starships, species } =
-    useStoreData()
-
-  useEffect(() => {
-    if (!query) {
-      return
-    }
-    if (query && query === "films") {
-      setDataToDisplay(films.list)
-    }
-    if (query && query === "planets") {
-      setDataToDisplay(planets.list)
-    }
-    if (query && query === "people") {
-      setDataToDisplay(peoples.list)
-    }
-    if (query && query === "species") {
-      setDataToDisplay(species.list)
-    }
-    if (query && query === "starships") {
-      setDataToDisplay(starships.list)
-    }
-    if (query && query === "vehicles") {
-      setDataToDisplay(vehicles.list)
-    }
-  }, [
-    films.list,
-    peoples.list,
-    planets.list,
-    query,
-    species.list,
-    starships.list,
-    vehicles.list,
-  ])
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get("q") || ""
+  const isInitialMount = useRef(true)
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<SearchFormData>({
     defaultValues: {
-      category: "",
+      category: "", // ✅ Init avec l'URL
     },
   })
 
-  const dispatch = useDispatch()
   const watchCategory = watch("category")
   const debouncedCategory = useDebounce(watchCategory, 1000)
 
+  // // ✅ SEULEMENT sync form → URL (pas l'inverse pendant la frappe)
+  // useEffect(() => {
+  //   if (
+  //     !isInitialMount.current &&
+  //     debouncedCategory &&
+  //     debouncedCategory.length >= 2
+  //   ) {
+  //     setSearchParams({ q: debouncedCategory }, { replace: true })
+  //   }
+  //   if (isInitialMount.current) {
+  //     isInitialMount.current = false
+  //   }
+  // }, [debouncedCategory, setSearchParams])
+
+  // ✅ SEULEMENT sync URL → form au retour depuis une autre page
+  useEffect(() => {
+    // Ne sync que si l'input est vide ou très différent (navigation externe)
+    if (query) {
+      setValue("category", query)
+    }
+  }, [query, setValue])
+
   const {
-    isError,
     data: result,
-    error,
     isFetching,
-  } = useSearch(debouncedCategory)
+    error,
+    isError,
+  } = useSearch(debouncedCategory || query)
 
   const onSubmit = (data: SearchFormData) => {
-    console.log("Form submitted with:", data)
-  }
-
-  useEffect(() => {
-    if (result && result.success) {
-      if (result.category === "films") {
-        dispatch(setFilms(result.data))
-      }
-      if (result.category === "planets") {
-        dispatch(setPlanets(result.data))
-      }
-      if (result.category === "people") {
-        dispatch(setPeoples(result.data))
-      }
-      if (result.category === "species") {
-        dispatch(setSpecies(result.data))
-      }
-      if (result.category === "starships") {
-        dispatch(setStarships(result.data))
-      }
-      if (result.category === "vehicles") {
-        dispatch(setVehicles(result.data))
-      }
+    if (data.category) {
+      setSearchParams({ q: data.category })
     }
-  }, [result, dispatch])
+  }
 
   return (
     <div className="flex flex-col gap-4 items-center">
@@ -136,8 +94,7 @@ export default function SearchPage() {
       </form>
 
       {isFetching && <span>Loading...</span>}
-
-      {isError && <span>Error: {error.message}</span>}
+      {isError && <span>Error: {error?.message}</span>}
 
       {result && !result.success && (
         <div className="flex flex-col gap-4">
@@ -148,15 +105,8 @@ export default function SearchPage() {
 
       {result && result.success && (
         <div className="mt-4">
-          <h3 className="font-bold">Results: {debouncedCategory}</h3>
-          <ListCards data={result.data} category={debouncedCategory} />
-        </div>
-      )}
-
-      {dataToDisplay.length > 0 && query && debouncedCategory.length === 0 && (
-        <div className="mt-4">
-          <h3 className="font-bold">Results: {query}</h3>
-          <ListCards data={dataToDisplay} category={query} />
+          <h3 className="font-bold">Results: {debouncedCategory || query}</h3>
+          <ListCards data={result.data} category={debouncedCategory || query} />
         </div>
       )}
     </div>

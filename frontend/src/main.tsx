@@ -9,7 +9,16 @@ import { Provider } from "react-redux"
 import { store } from "./store/store"
 import DetailsCardDispatcher from "./components/cards/DetailsCardDispatcher.tsx"
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 2 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+    },
+  },
+})
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

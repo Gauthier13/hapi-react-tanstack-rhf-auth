@@ -1,16 +1,19 @@
-import { useSelector } from "react-redux"
 import { Link, useParams } from "react-router"
-import type { RootState } from "../../../store/store"
-import type { TStarship } from "../../../validation-schemas/starship.schema"
+import { useItemFromCache } from "../../../hooks/useSearch"
 
 export default function StarshipDetailCard() {
   const { id } = useParams()
-  const starship: TStarship | undefined = useSelector((state: RootState) =>
-    state.starships.list.find((p) => p.id === id)
-  )
+  const {
+    data: starship,
+    isFetching,
+    error,
+    isError,
+  } = useItemFromCache("starships", id!)
   return (
     <div className="flex flex-col gap-6 min-h-screen max-w-2xl w-full">
       <p className="font-bold text-lg">Details</p>
+      {isFetching && <span>Loading...</span>}
+      {isError && <span>Error: {error.message}</span>}
       <div className="flex flex-col p-4 gap-2 rounded-2xl bg-cyan-200 justify-center">
         <p className="font-bold text-slate-700 text-2xl">{starship?.name}</p>
         <p className="font-bold text-slate-700">
