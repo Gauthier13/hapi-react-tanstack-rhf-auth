@@ -1,4 +1,3 @@
-// pages/SearchPage.tsx
 import { useForm } from "react-hook-form"
 import { useDebounce } from "../hooks/useDebounce"
 import ListCards from "../components/cards/ListCards"
