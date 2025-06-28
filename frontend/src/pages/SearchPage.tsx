@@ -11,6 +11,7 @@ import type { RootState } from "../store/store"
 import type { TPlanet } from "../validation-schemas/planet.shema"
 import { setPeoples } from "../store/peoplesSlice"
 import { setSpecies } from "../store/speciesSlice"
+import { setStarships } from "../store/starshipsSlice"
 
 type SearchFormData = {
   category: string
@@ -87,6 +88,9 @@ export default function SearchPage() {
       }
       if (result.category === "species") {
         dispatch(setSpecies(result.data))
+      }
+      if (result.category === "starships") {
+        dispatch(setStarships(result.data))
       }
     }
   }, [result, dispatch])

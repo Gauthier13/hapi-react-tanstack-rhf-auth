@@ -3,6 +3,7 @@ import filmsReducer from "./filmsSlice"
 import planetsReducer from "./planetsSlice"
 import peoplesReducer from "./peoplesSlice"
 import speciesReducer from "./speciesSlice"
+import starshipsReducer from "./starshipsSlice"
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     planets: planetsReducer,
     peoples: peoplesReducer,
     species: speciesReducer,
+    starships: starshipsReducer,
   },
 })
 
