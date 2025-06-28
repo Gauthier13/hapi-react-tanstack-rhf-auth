@@ -6,12 +6,12 @@ import searchRoute from "./routes/search"
 
 const init = async () => {
   const server = Hapi.server({
-    port: 3000,
-    host: "localhost",
+    port: process.env.PORT || 3000,
+    host: "0.0.0.0",
     routes: {
       cors: {
         origin: [
-          "https://frontend-mkj02gw7s-gauthier13s-projects.vercel.app",
+          "https://frontend-cmqpwrkg7-gauthier13s-projects.vercel.app",
           "http://localhost:5173",
         ],
         credentials: true,
