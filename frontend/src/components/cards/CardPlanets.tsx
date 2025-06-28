@@ -11,7 +11,7 @@ export default function CardPlanets(data: unknown) {
   const planet = result.data
   return (
     <div className="flex flex-col gap-4 items-center p-3 rounded-2xl">
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-4 items-center justify-between w-full">
         <h2>{planet.name}</h2>
         <Link
           to={`/search/planets/${planet.id}`}

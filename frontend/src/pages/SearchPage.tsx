@@ -1,18 +1,16 @@
-import { useQuery } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { useDebounce } from "../hooks/useDebounce"
-import { Cards } from "../components/cards/Cards"
 import { useEffect } from "react"
 import { setFilms } from "../store/filmsSlice"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { setPlanets } from "../store/planetsSlice"
 import { setPeoples } from "../store/peoplesSlice"
 import { setSpecies } from "../store/speciesSlice"
 import { setStarships } from "../store/starshipsSlice"
 import { setVehicles } from "../store/vehiclesSlice"
-import type { RootState } from "../store/store"
-import type { TPeople } from "../validation-schemas/people.schema"
 import { useSearchParams } from "react-router"
+import ListCards from "../components/cards/ListCards"
+import { useSearch } from "../hooks/useSearch"
 
 type SearchFormData = {
   category: string
@@ -21,7 +19,6 @@ type SearchFormData = {
 export default function SearchPage() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get("q")
-  console.log("🚀 ~ query:", query)
 
   const {
     register,
@@ -43,29 +40,7 @@ export default function SearchPage() {
     data: result,
     error,
     isFetching,
-  } = useQuery({
-    queryKey: ["search", debouncedCategory],
-    queryFn: async () => {
-      const response = await fetch(
-        `http://localhost:3000/search?q=${debouncedCategory}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Basic ${btoa(`Luke:DadSucks`)}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-
-      if (!response.ok) {
-        throw new Error(`Search failed: ${response.statusText}`)
-      }
-
-      return response.json()
-    },
-    enabled: !!debouncedCategory && debouncedCategory.length >= 2,
-    staleTime: 2 * 60 * 1000,
-  })
+  } = useSearch(debouncedCategory)
 
   const onSubmit = (data: SearchFormData) => {
     console.log("Form submitted with:", data)
@@ -93,12 +68,6 @@ export default function SearchPage() {
       }
     }
   }, [result, dispatch])
-
-  const people: TPeople[] | undefined = useSelector(
-    (state: RootState) => state.peoples.list
-  )
-
-  console.log("🚀 ~ people:", people)
 
   return (
     <div className="flex flex-col gap-4 items-center">
@@ -142,23 +111,7 @@ export default function SearchPage() {
       {result && result.success && (
         <div className="mt-4">
           <h3 className="font-bold">Results: {debouncedCategory}</h3>
-          <div className="p-4 bg-slate-900 rounded-3xl mt-4">
-            <div className="h-96 overflow-y-auto p-4">
-              <ul>
-                {result.data.map((data) => {
-                  return (
-                    <li key={data.id}>
-                      <Cards
-                        key={data.id}
-                        category={debouncedCategory}
-                        data={data}
-                      />
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
+          <ListCards data={result.data} category={debouncedCategory} />
         </div>
       )}
     </div>

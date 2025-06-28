@@ -10,8 +10,8 @@ export default function CardStarships(data: unknown) {
 
   const starship = result.data
   return (
-    <div className="flex flex-col gap-4 items-center p-3 rounded-2xl">
-      <div className="flex gap-4 items-center">
+    <div className="flex flex-col gap-4 items-center p-3 bg-slate-800 rounded-3xl">
+      <div className="flex gap-4 items-center justify-between w-full">
         <h2>{starship.name}</h2>
         <Link
           to={`/search/starships/${starship.id}`}
