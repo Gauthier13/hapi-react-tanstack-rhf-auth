@@ -4,6 +4,7 @@ import planetsReducer from "./planetsSlice"
 import peoplesReducer from "./peoplesSlice"
 import speciesReducer from "./speciesSlice"
 import starshipsReducer from "./starshipsSlice"
+import vehiclesReducer from "./vehiclesSlice"
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     peoples: peoplesReducer,
     species: speciesReducer,
     starships: starshipsReducer,
+    vehicles: vehiclesReducer,
   },
 })
 

@@ -10,9 +10,9 @@ import { store } from "./store/store"
 import FilmDetailsCard from "./components/cards/DetailsCards/FilmDetailsCard.tsx"
 import PlanetDetailsCard from "./components/cards/DetailsCards/PlanetDetailCard.tsx"
 import PeopleDetailCard from "./components/cards/DetailsCards/PeopleDetailCard.tsx"
-
 import StarshipDetailCard from "./components/cards/DetailsCards/StarshipDetailCard.tsx"
 import SpecieDetailCard from "./components/cards/DetailsCards/SpecieDetailCard.tsx"
+import VehicleDetailCard from "./components/cards/DetailsCards/VehicleDetailCard.tsx"
 
 const queryClient = new QueryClient()
 
@@ -32,7 +32,10 @@ createRoot(document.getElementById("root")!).render(
               path="/search/starships/:id"
               element={<StarshipDetailCard />}
             />
-            <Route path="/search/vehicles/:id" element={<FilmDetailsCard />} />
+            <Route
+              path="/search/vehicles/:id"
+              element={<VehicleDetailCard />}
+            />
           </Routes>
         </BrowserRouter>
       </QueryClientProvider>

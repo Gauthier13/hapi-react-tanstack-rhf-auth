@@ -12,6 +12,7 @@ import type { TPlanet } from "../validation-schemas/planet.shema"
 import { setPeoples } from "../store/peoplesSlice"
 import { setSpecies } from "../store/speciesSlice"
 import { setStarships } from "../store/starshipsSlice"
+import { setVehicles } from "../store/vehiclesSlice"
 
 type SearchFormData = {
   category: string
@@ -69,7 +70,7 @@ export default function SearchPage() {
     enabled: !!debouncedCategory && debouncedCategory.length >= 2,
     staleTime: 2 * 60 * 1000,
   })
-  console.log("🚀 ~ result:", result)
+  // console.log("🚀 ~ result:", result)
 
   const onSubmit = (data: SearchFormData) => {
     console.log("Form submitted with:", data)
@@ -91,6 +92,9 @@ export default function SearchPage() {
       }
       if (result.category === "starships") {
         dispatch(setStarships(result.data))
+      }
+      if (result.category === "vehicles") {
+        dispatch(setVehicles(result.data))
       }
     }
   }, [result, dispatch])
