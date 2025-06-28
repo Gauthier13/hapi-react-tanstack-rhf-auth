@@ -4,7 +4,7 @@ import { useDebounce } from "../hooks/useDebounce"
 import ListCards from "../components/cards/ListCards"
 import { useSearch } from "../hooks/useSearch"
 import { useSearchParams } from "react-router"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 
 type SearchFormData = {
   category: string
@@ -12,8 +12,7 @@ type SearchFormData = {
 
 export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const query = searchParams.get("q") || ""
-  const isInitialMount = useRef(true)
+  const query = searchParams.get("q")
 
   const {
     register,
@@ -23,30 +22,14 @@ export default function SearchPage() {
     formState: { errors },
   } = useForm<SearchFormData>({
     defaultValues: {
-      category: "", // ✅ Init avec l'URL
+      category: "",
     },
   })
 
   const watchCategory = watch("category")
   const debouncedCategory = useDebounce(watchCategory, 1000)
 
-  // // ✅ SEULEMENT sync form → URL (pas l'inverse pendant la frappe)
-  // useEffect(() => {
-  //   if (
-  //     !isInitialMount.current &&
-  //     debouncedCategory &&
-  //     debouncedCategory.length >= 2
-  //   ) {
-  //     setSearchParams({ q: debouncedCategory }, { replace: true })
-  //   }
-  //   if (isInitialMount.current) {
-  //     isInitialMount.current = false
-  //   }
-  // }, [debouncedCategory, setSearchParams])
-
-  // ✅ SEULEMENT sync URL → form au retour depuis une autre page
   useEffect(() => {
-    // Ne sync que si l'input est vide ou très différent (navigation externe)
     if (query) {
       setValue("category", query)
     }
@@ -57,7 +40,7 @@ export default function SearchPage() {
     isFetching,
     error,
     isError,
-  } = useSearch(debouncedCategory || query)
+  } = useSearch(debouncedCategory || (query ?? ""))
 
   const onSubmit = (data: SearchFormData) => {
     if (data.category) {

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
+import type { TCategory } from "../types/searchResult"
 
-const fetchCategoryData = async (category: string) => {
+const fetchCategoryData = async (category: TCategory | string) => {
   if (!category) {
     throw new Error("Category is required")
   }
@@ -20,7 +21,7 @@ const fetchCategoryData = async (category: string) => {
   return response.json()
 }
 
-export function useSearch(category: string) {
+export function useSearch(category: TCategory | string) {
   const {
     isError,
     data: result,
@@ -37,7 +38,7 @@ export function useSearch(category: string) {
   return { isError, data: result, error, isFetching }
 }
 
-export const useItemFromCache = (category: string, itemId: string) => {
+export const useItemFromCache = (category: TCategory, itemId: string) => {
   return useQuery({
     queryKey: ["search", category],
     queryFn: () => fetchCategoryData(category),
