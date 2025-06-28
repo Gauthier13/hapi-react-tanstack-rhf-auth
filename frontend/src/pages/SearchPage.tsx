@@ -103,9 +103,11 @@ export default function SearchPage() {
       {result && result.success && (
         <div className="mt-4">
           <h3 className="font-bold">Results:</h3>
-          {result.data.map((data: unknown, index: number) => (
-            <Cards key={index} category={debouncedCategory} data={data} />
-          ))}
+          {result.data.map((data: unknown) => {
+            return (
+              <Cards key={data.id} category={debouncedCategory} data={data} />
+            )
+          })}
         </div>
       )}
     </div>
