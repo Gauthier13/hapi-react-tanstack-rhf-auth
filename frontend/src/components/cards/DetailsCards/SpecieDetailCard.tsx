@@ -33,7 +33,7 @@ export default function SpecieDetailCard() {
         <p className="text-slate-700">
           <span className="font-bold">Designation</span>: {specie?.designation}
         </p>
-        <Link to="/search?q=planets" className="p-2 bg-blue-600 rounded-2xl">
+        <Link to="/search?q=species" className="p-2 bg-blue-600 rounded-2xl">
           Back
         </Link>
       </div>

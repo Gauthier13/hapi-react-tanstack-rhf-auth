@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form"
 import { useDebounce } from "../hooks/useDebounce"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { setFilms } from "../store/filmsSlice"
 import { useDispatch } from "react-redux"
 import { setPlanets } from "../store/planetsSlice"
@@ -12,6 +12,8 @@ import { useSearchParams } from "react-router"
 import ListCards from "../components/cards/ListCards"
 import { useSearch } from "../hooks/useSearch"
 
+import { useStoreData } from "../hooks/useStoreData"
+
 type SearchFormData = {
   category: string
 }
@@ -19,6 +21,42 @@ type SearchFormData = {
 export default function SearchPage() {
   const [searchParams] = useSearchParams()
   const query = searchParams.get("q")
+
+  const [dataToDisplay, setDataToDisplay] = useState<any[]>([])
+  const { films, planets, peoples, vehicles, starships, species } =
+    useStoreData()
+
+  useEffect(() => {
+    if (!query) {
+      return
+    }
+    if (query && query === "films") {
+      setDataToDisplay(films.list)
+    }
+    if (query && query === "planets") {
+      setDataToDisplay(planets.list)
+    }
+    if (query && query === "people") {
+      setDataToDisplay(peoples.list)
+    }
+    if (query && query === "species") {
+      setDataToDisplay(species.list)
+    }
+    if (query && query === "starships") {
+      setDataToDisplay(starships.list)
+    }
+    if (query && query === "vehicles") {
+      setDataToDisplay(vehicles.list)
+    }
+  }, [
+    films.list,
+    peoples.list,
+    planets.list,
+    query,
+    species.list,
+    starships.list,
+    vehicles.list,
+  ])
 
   const {
     register,
@@ -112,6 +150,13 @@ export default function SearchPage() {
         <div className="mt-4">
           <h3 className="font-bold">Results: {debouncedCategory}</h3>
           <ListCards data={result.data} category={debouncedCategory} />
+        </div>
+      )}
+
+      {dataToDisplay.length > 0 && query && debouncedCategory.length === 0 && (
+        <div className="mt-4">
+          <h3 className="font-bold">Results: {query}</h3>
+          <ListCards data={dataToDisplay} category={query} />
         </div>
       )}
     </div>
