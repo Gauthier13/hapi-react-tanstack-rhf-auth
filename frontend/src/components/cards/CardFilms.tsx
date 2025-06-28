@@ -14,6 +14,7 @@ export default function CardFilms(data: unknown) {
     <div className="flex flex-col gap-4 items-center p-3 rounded-2xl">
       <div className="flex gap-4 items-center">
         <h2>{film.title}</h2>
+        <h2>{film.id}</h2>
         <Link
           to={`/search/films/${film.title}`}
           className="bg-amber-200 hover:bg-amber-400 rounded-2xl p-2 text-slate-700"

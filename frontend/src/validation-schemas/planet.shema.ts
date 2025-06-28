@@ -14,7 +14,8 @@ export const planetSchema = z.object({
   films: z.array(z.string()),
   created: z.string(),
   edited: z.string(),
-  url: z.string().url(),
+  url: z.url(),
+  id: z.uuidv4(),
 })
 
 export type TPlanet = z.infer<typeof planetSchema>

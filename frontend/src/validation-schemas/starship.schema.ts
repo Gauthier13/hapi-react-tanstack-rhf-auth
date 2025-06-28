@@ -18,7 +18,8 @@ export const starshipSchema = z.object({
   films: z.array(z.string()),
   created: z.string(),
   edited: z.string(),
-  url: z.string().url(),
+  url: z.url(),
+  id: z.uuidv4(),
 })
 
 export type TStarship = z.infer<typeof starshipSchema>

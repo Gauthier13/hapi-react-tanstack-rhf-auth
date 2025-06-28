@@ -17,6 +17,7 @@ export const vehicleSchema = z.object({
   created: z.string(),
   edited: z.string(),
   url: z.url(),
+  id: z.uuidv4(),
 })
 
 export type TVehicle = z.infer<typeof vehicleSchema>

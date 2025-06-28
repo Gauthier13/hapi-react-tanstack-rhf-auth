@@ -15,6 +15,7 @@ export const filmSchema = z.object({
   created: z.string(),
   edited: z.string(),
   url: z.url(),
+  id: z.uuidv4(),
 })
 
 export type TFilm = z.infer<typeof filmSchema>
