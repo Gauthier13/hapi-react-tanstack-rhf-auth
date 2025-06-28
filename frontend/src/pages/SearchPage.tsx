@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useForm } from "react-hook-form"
 import { useDebounce } from "../hooks/useDebounce"
+import { Cards } from "../components/cards/Cards"
 
 type SearchFormData = {
   category: string
@@ -21,7 +22,12 @@ export default function SearchPage() {
   const watchCategory = watch("category")
   const debouncedCategory = useDebounce(watchCategory, 1000)
 
-  const { isPending, isError, data, error } = useQuery({
+  const {
+    isError,
+    data: result,
+    error,
+    isFetching,
+  } = useQuery({
     queryKey: ["search", debouncedCategory],
     queryFn: async () => {
       const response = await fetch(
@@ -41,15 +47,13 @@ export default function SearchPage() {
 
       return response.json()
     },
-    enabled: !!debouncedCategory,
+    enabled: !!debouncedCategory && debouncedCategory.length >= 2,
     staleTime: 2 * 60 * 1000,
   })
 
   const onSubmit = (data: SearchFormData) => {
     console.log("Form submitted with:", data)
   }
-
-  console.log("🚀 ~ data:", data)
 
   return (
     <div className="flex flex-col gap-4 items-center">
@@ -85,14 +89,23 @@ export default function SearchPage() {
         )}
       </form>
 
-      {isPending && <span>Loading...</span>}
+      {isFetching && <span>Loading...</span>}
 
       {isError && <span>Error: {error.message}</span>}
 
-      {data && (
+      {result && !result.success && (
+        <div className="flex flex-col gap-4">
+          <p className="text-red-500 text-sm">{result.message}</p>
+          <p className="text-sm">No results</p>
+        </div>
+      )}
+
+      {result && result.success && (
         <div className="mt-4">
           <h3 className="font-bold">Results:</h3>
-          <pre className="p-2 rounded">{JSON.stringify(data, null, 2)}</pre>
+          {result.data.map((data: unknown, index: number) => (
+            <Cards key={index} category={debouncedCategory} data={data} />
+          ))}
         </div>
       )}
     </div>
