@@ -63,8 +63,6 @@ export default function SearchPage() {
 
   useEffect(() => {
     if (result && result.success) {
-      console.log("coucou")
-
       if (result.category === "films") {
         dispatch(setFilms(result.data))
       }

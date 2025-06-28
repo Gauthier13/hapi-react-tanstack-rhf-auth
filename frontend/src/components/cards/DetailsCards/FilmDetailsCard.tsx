@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { useParams } from "react-router"
+import { Link, useParams } from "react-router"
 import type { TFilm } from "../../../validation-schemas/film.schema"
 import type { RootState } from "../../../store/store"
 
@@ -27,6 +27,9 @@ export default function FilmDetailsCard() {
           <span className="font-bold">Release date</span>: {film?.release_date}
         </p>
       </div>
+      <Link to="/search?q=films" className="p-2 bg-blue-600 rounded-2xl">
+        Back
+      </Link>
     </div>
   )
 }
