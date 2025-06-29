@@ -6,6 +6,9 @@ import { BrowserRouter, Link, Route, Routes } from "react-router"
 import SearchPage from "./pages/SearchPage.tsx"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import DetailsCardDispatcher from "./components/cards/DetailsCardDispatcher.tsx"
+import { LoginPage } from "./pages/loginPage.tsx"
+import { ProtectedRoute } from "./components/ProtectedRoute.tsx"
+import { AuthProvider } from "./context/AuthContext.tsx"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -18,7 +21,6 @@ const queryClient = new QueryClient({
   },
 })
 
-// Composant NotFound pour la route 404
 export function NotFound() {
   return (
     <div className="flex flex-col gap-3 items-center justify-center min-h-screen ">
@@ -34,17 +36,22 @@ export function NotFound() {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/search" element={<SearchPage />} />
-          <Route
-            path="/search/:category/:id"
-            element={<DetailsCardDispatcher />}
-          />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<App />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/search" element={<SearchPage />} />
+              <Route
+                path="/search/:category/:id"
+                element={<DetailsCardDispatcher />}
+              />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>
 )

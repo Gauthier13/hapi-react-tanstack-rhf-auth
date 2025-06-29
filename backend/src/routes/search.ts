@@ -5,6 +5,9 @@ const searchRoute: ServerRoute = {
   method: "GET",
   path: "/search",
   handler: searchController,
+  options: {
+    auth: "jwt_strategy",
+  },
 }
 
 export default searchRoute

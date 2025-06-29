@@ -4,6 +4,7 @@ import ListCards from "../components/cards/ListCards"
 import { useSearch } from "../hooks/useSearch"
 import { useSearchParams } from "react-router"
 import { useEffect } from "react"
+import LogoutButton from "../components/buttons/LogoutButton"
 
 type SearchFormData = {
   category: string
@@ -94,6 +95,7 @@ export default function SearchPage() {
           />
         </div>
       )}
+      <LogoutButton />
     </div>
   )
 }
