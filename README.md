@@ -35,7 +35,7 @@ Mais j'ai fini par abandonner Redux car trop de galère pour un si petit projet 
 > [!NOTE] 
 > Il y a donc une requête vers le back par catégorie si l'on veut récupérer toutes les données de l'api, ensuite, le front distribue les données aux composants uniquement à partir du cache des query
 
-Pour l'auth coté front, j'ai crée un context qui me retourne des méthodes à appeler. Combiné à un composant ProtectedRoute qui exploite le context pour vérifier si l'utilisateur est authentifié et si non: le rediriger vers la sortie. A noter que cela fonctionne parfaitement en local mais une fois déployé non, je me suis loupé quelque part. Il en est de même avec ma route * qui affiche un composant d'erreur pour protéger des erreurs dans l'url et afficher <NotFound /> mais il ne fonctionne pas en prod...
+Pour l'auth coté front, j'ai crée un context qui me retourne des méthodes à appeler. Combiné à un composant ProtectedRoute qui exploite le context pour vérifier si l'utilisateur est authentifié et si non: le rediriger vers la sortie. A noter que cela fonctionne parfaitement en local mais une fois déployé non, je me suis loupé quelque part. Il en est de même avec ma route * qui affiche un composant d'erreur pour protéger des erreurs dans l'url et afficher le composant NotFound mais il ne fonctionne pas en prod...
 
 J'ai utilisé Zod pour valider les données renvoyées par le back avant d'afficher la liste des données, 
 
