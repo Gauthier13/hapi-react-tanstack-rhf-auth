@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react"
-import { useLogin, isAuthenticated, logout } from "../services/auth"
+import { useLogin } from "../services/auth"
 import type { LoginResponse } from "../types/auth"
 
 interface AuthContextType {
@@ -26,12 +26,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const bootstrap = () => {
-      if (isAuthenticated()) {
-        const userData = localStorage.getItem("user_name")
-        if (userData) {
-          setUser(JSON.parse(userData))
-        }
+      const userData = localStorage.getItem("user_name")
+      if (userData) {
+        setUser(JSON.parse(userData))
       }
+
       setIsLoading(false)
     }
 
@@ -46,8 +45,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const handleLogout = () => {
-    logout()
     localStorage.removeItem("user_name")
+    localStorage.removeItem("auth_token")
     setUser(null)
   }
 

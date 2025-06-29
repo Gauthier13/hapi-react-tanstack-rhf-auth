@@ -27,9 +27,11 @@ export const LoginPage = () => {
   const watchUsername = watch("username")
   const watchPassword = watch("password")
 
-  const onSubmit = () => {
-    login(watchUsername, watchPassword)
-    navigate("/search")
+  const onSubmit = async () => {
+    const result = await login(watchUsername, watchPassword)
+    if (result) {
+      navigate("/search")
+    }
   }
 
   return (

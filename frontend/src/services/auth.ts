@@ -33,11 +33,3 @@ export const useLogin = () => {
     },
   })
 }
-
-export const logout = () => {
-  localStorage.removeItem("auth_token")
-}
-
-export const isAuthenticated = () => {
-  return !!localStorage.getItem("auth_token")
-}
