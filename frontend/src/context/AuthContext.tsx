@@ -20,16 +20,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<{ id: number; username: string } | null>(
     null
   )
+  const [isLoading, setIsLoading] = useState(true)
 
   const loginMutation = useLogin()
 
   useEffect(() => {
-    if (isAuthenticated()) {
-      const userData = localStorage.getItem("user_name")
-      if (userData) {
-        setUser(JSON.parse(userData))
+    const bootstrap = () => {
+      if (isAuthenticated()) {
+        const userData = localStorage.getItem("user_name")
+        if (userData) {
+          setUser(JSON.parse(userData))
+        }
       }
+      setIsLoading(false)
     }
+
+    bootstrap()
   }, [])
 
   const login = async (username: string, password: string) => {
@@ -50,7 +56,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       value={{
         user,
         isAuthenticated: !!user,
-        isLoading: loginMutation.isPending,
+        isLoading,
         error: loginMutation.error,
         login,
         logout: handleLogout,
