@@ -3,7 +3,7 @@
 import Hapi from "@hapi/hapi"
 import searchRoute from "./routes/search"
 import loginRoute from "./routes/login"
-const Jwt = require("@hapi/jwt")
+import * as Jwt from "@hapi/jwt"
 
 export const JWT_SECRET = "dark-sousls-3-est-mieux-que-elden-ring"
 
