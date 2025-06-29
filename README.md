@@ -32,7 +32,7 @@ Au début j'ai stocké les données renvoyées par le back dans redux au moment 
 
 Mais j'ai fini par abandonner Redux car trop de galère pour un si petit projet alors j'ai plongé plus en profondeur dans la doc de react query et me rendre compte que c'est largement suffisant pour mes besoins. Dans la branche no-redux (qui est déployée), j'ai supprimé Redux et exploité le cache des query. J'ai défini deux query avec la même queryKey pour exploiter leur données cachées. Une query définie dans le hook useSearch qui récupère toutes les données d'une catégorie et un hook useItemFromCache qui a un prop select parfaite pour récupérer une donnée dans le cache en se basant sur l'id de la donnée qui est dans l'url.
 
-> [!NOTE] Stylé non ?
+> [!NOTE] 
 > Il y a donc une requête vers le back par catégorie si l'on veut récupérer toutes les données de l'api, ensuite, le front distribue les données aux composants uniquement à partir du cache des query
 
 Pour l'auth coté front, j'ai crée un context qui me retourne des méthodes à appeler. Combiné à un composant ProtectedRoute qui exploite le context pour vérifier si l'utilisateur est authentifié et si non: le rediriger vers la sortie. A noter que cela fonctionne parfaitement en local mais une fois déployé non, je me suis loupé quelque part. Il en est de même avec ma route * qui affiche un composant d'erreur pour protéger des erreurs dans l'url et afficher <NotFound /> mais il ne fonctionne pas en prod...
