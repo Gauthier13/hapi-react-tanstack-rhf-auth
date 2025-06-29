@@ -11,7 +11,6 @@ export default async (
   h: ResponseToolkit
 ): Promise<LoginResponse | Boom.Boom> => {
   const { username, password } = request.payload as LoginPayload
-  console.log("Authorization header:", request.headers.authorization)
 
   const user: User | undefined = users.find(
     (u) => u.username === username && u.password === password
