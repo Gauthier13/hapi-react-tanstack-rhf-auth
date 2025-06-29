@@ -1,10 +1,8 @@
 "use strict"
 
 import Hapi from "@hapi/hapi"
-import auth from "./middlewares/auth"
 import searchRoute from "./routes/search"
 import loginRoute from "./routes/login"
-import authJwt from "./middlewares/authJwt"
 const Jwt = require("@hapi/jwt")
 
 export const JWT_SECRET = "dark-sousls-3-est-mieux-que-elden-ring"
@@ -48,9 +46,6 @@ const init = async () => {
     },
   })
 
-  // set the strategy
-  // server.auth.default("jwt_strategy")
-  server.ext("onPreHandler", authJwt)
   server.route([loginRoute, searchRoute])
 
   await server.start()

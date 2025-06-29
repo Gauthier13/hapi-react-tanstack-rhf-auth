@@ -9,11 +9,9 @@ type LoginFormData = {
 }
 
 export const LoginPage = () => {
-  // const { isLoading, error, login } = useAuth()
   const navigate = useNavigate()
 
-  const { login, isLoading, error, isAuthenticated } = useContext(AuthContext)
-  console.log("🚀 ~ isAuthenticated:", isAuthenticated)
+  const { login, isLoading, error } = useContext(AuthContext)
 
   const {
     register,

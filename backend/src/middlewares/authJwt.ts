@@ -1,4 +1,3 @@
-// middlewares/auth.ts
 import { Request, ResponseToolkit, Lifecycle } from "@hapi/hapi"
 import * as Boom from "@hapi/boom"
 
