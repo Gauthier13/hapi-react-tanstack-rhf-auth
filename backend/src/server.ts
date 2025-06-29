@@ -14,7 +14,7 @@ const init = async () => {
     routes: {
       cors: {
         origin: [
-          "https://frontend-os4c8hjjg-gauthier13s-projects.vercel.app/",
+          "https://frontend-gsn1etfr9-gauthier13s-projects.vercel.app",
           "http://localhost:5173",
         ],
         credentials: true,

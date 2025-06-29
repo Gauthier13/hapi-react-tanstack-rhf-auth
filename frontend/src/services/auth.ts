@@ -1,7 +1,12 @@
 import { useMutation } from "@tanstack/react-query"
 import type { LoginResponse } from "../types/auth"
 
-const API_BASE_URL = "http://localhost:3000"
+const config = {
+  API_URL:
+    window.location.hostname === "localhost"
+      ? "http://localhost:3000"
+      : "https://fastory-backend-production.up.railway.app",
+}
 
 export const useLogin = () => {
   return useMutation({
@@ -12,7 +17,7 @@ export const useLogin = () => {
       username: string
       password: string
     }) => {
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${config.API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
