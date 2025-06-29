@@ -4,7 +4,7 @@ import { LoginPayload, LoginResponse, User } from "../types/auth"
 import * as Boom from "@hapi/boom"
 import * as Jwt from "@hapi/jwt"
 
-const users = [{ id: 1, username: "Luke", password: "Dadsucks" }]
+const users = [{ id: 1, username: "Luke", password: "DadSucks" }]
 
 export default async (
   request: Request,
