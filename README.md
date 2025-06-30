@@ -54,4 +54,6 @@ Pour l'auth coté front, j'ai créé un context qui me retourne des méthodes à
 - Séparer la déclaration des routes dans une variable routes et utiliser createBrowserRouter pour gagner en lisibilité car mes routes sont stackées avec les provider et c'est pas le plus lisible je trouve
 - Ajouter un logger comme Datadog par exemple
 - Un meilleur nommage des variables et props, je me suis retrouvé avec un data.data et c'est pas beau
+- hasher le password avec argon2
+- faire de la pagination car l'api renvoit beaucoup de données
 
