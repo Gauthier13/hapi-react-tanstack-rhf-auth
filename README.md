@@ -1,4 +1,4 @@
-# fastory-test-technique
+# Réalisé pour un test technique
 
 ## Commandes pour lancer le projet
 
